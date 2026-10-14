@@ -1,0 +1,21 @@
+# Copyrighted firmware and ROM-derived data: never commit.
+rom.bin
+*.rom
+_disas.txt
+mem-spans.txt
+CasioEmuNeo-master/asm/_disas.txt
+
+# Third-party references and tools kept locally only.
+/991CN-X-CW-Decompilation-main/
+/ghidra_*/
+
+# Generated output.
+/dist/
+/website-dist/
+**/qa-output/
+CasioEmuNeo-master/web/test/out/
+CasioEmuNeo-master/web/build/
+CasioEmuNeo-master/web/dist/
+.wrangler/
+node_modules/
+*.raw

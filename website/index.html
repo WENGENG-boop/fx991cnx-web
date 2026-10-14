@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#090c10">
+	<meta name="description" content="CNX Web — 熟悉的计算，换个方式打开。独立科学计算器项目展示。">
+	<title>CNX Web — 熟悉的计算，换个方式打开。</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<a class="skip" href="#main">跳到正文</a>
+	<header class="header">
+		<a class="brand" href="#top" aria-label="CNX Web 首页">CNX<span> / WEB</span></a>
+		<button class="menu-button" type="button" aria-expanded="false" aria-controls="navigation">菜单</button>
+		<nav id="navigation" aria-label="主导航"><button type="button" data-about>项目说明</button><a class="nav-launch" data-calculator-link href="http://127.0.0.1:5173/frontend/" target="_blank" rel="noopener noreferrer">打开计算器 ↗</a></nav>
+	</header>
+	<main id="main">
+		<section id="top" class="hero">
+			<canvas id="field" class="field" aria-hidden="true"></canvas>
+			<div class="hero-grid">
+				<div class="hero-copy">
+					<p class="eyebrow"><span class="live-dot"></span> FX-991CN X · BROWSER EDITION</p>
+					<h1><span class="headline-line"><span>熟悉的计算，</span></span><span class="headline-line"><span class="accent">换个方式打开。</span></span></h1>
+					<p class="hero-description">你的科学计算器，现在就在浏览器里。</p>
+					<div class="hero-actions"><a class="button primary" data-calculator-link href="http://127.0.0.1:5173/frontend/" target="_blank" rel="noopener noreferrer">开始计算 <span>↗</span></a></div>
+					<div class="quick-facts"><span>50 颗原机按键</span><span>WASM 内核</span><span>本地记忆</span></div>
+				</div>
+				<div class="product-scene" id="product-scene">
+					<span class="scene-number" aria-hidden="true">991</span>
+					<div class="product-card" id="product-card"><canvas id="product" width="688" height="1440" aria-label="FX-991CN X 原始写实面板展示图，非可操作计算器"></canvas></div>
+					<div class="scene-light" aria-hidden="true"></div>
+					<div class="scene-caption"><span>FX-991CN X</span><span>机身展示 / 非交互计算</span></div>
+					<p id="asset-error" hidden>展示图加载失败，仍可打开计算器。</p>
+				</div>
+			</div>
+			<div class="hero-bottom"><span>原机逻辑 · 全新入口</span><button id="intro-replay" type="button">重播入场 ↺</button><button id="motion-toggle" type="button" aria-pressed="true">动效：开</button><button type="button" data-about>了解项目 ↓</button></div>
+		</section>
+		<section class="about-section">
+			<details id="about" class="about"><summary>项目说明与使用须知 <span>+</span></summary><div class="about-content">
+				<div><h2>官网与计算器，分开。</h2><p>此页面仅展示项目，不加载模拟器、WASM 或 ROM。“开始计算”会另开计算器页面；具体操作指南也在计算器内按需展开。</p></div>
+				<div><h2>真实内核，不夸大兼容性。</h2><p>计算器使用现有 CasioEmuNeo 内核运行机型 ROM。高级模式的完整真机兼容性和真实手机/iPad Safari 效果仍需逐项验收。</p></div>
+				<div><h2>独立项目，非 Casio 官方站点。</h2><p>品牌与机身素材归原权利人所有。按键操作请参考 <a href="https://www.casio.com/content/dam/casio/global/support/manuals/calculators/pdf/004-zh-cn/f/fx-991CN_X_B_CN.pdf" target="_blank" rel="noopener noreferrer">官方 fx-991CN X 中文说明书 ↗</a>。</p></div>
+			</div></details>
+		</section>
+	</main>
+	<footer class="footer"><span>CNX / WEB</span><span>独立项目 · 非 Casio 官方产品</span><a href="#top">回到顶部 ↑</a></footer>
+	<script type="module" src="./app.js"></script>
+</body>
+</html>

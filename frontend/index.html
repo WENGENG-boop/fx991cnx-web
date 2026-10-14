@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#eef1f5">
+	<meta name="description" content="FX-991CN X 网页计算器，原机面板、完整按键与本地记忆。">
+	<title>FX-991CN X · 网页计算器</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<a class="skip-link" href="#calculator">跳到计算器</a>
+	<header class="page-header">
+		<a class="wordmark" href="#calculator"><span class="brand-label">科学计算工作台</span><span>fx‑991CN X<span class="edition">ClassWiz · 中文版</span></span></a>
+		<nav aria-label="页面导航"><a href="#guide">操作指南</a><a href="https://www.casio.com/content/dam/casio/global/support/manuals/calculators/pdf/004-zh-cn/f/fx-991CN_X_B_CN.pdf" target="_blank" rel="noopener noreferrer">官方说明书</a></nav>
+	</header>
+	<main class="page-layout">
+	<div id="calculator" class="calculator-column">
+		<div class="stage-caption"><span>计算器</span><span class="stage-tag">原机 ROM · 本地运行</span></div>
+		<section class="workspace" aria-label="FX-991CN X 计算器">
+			<div class="device-wrap">
+				<div id="device" class="device" aria-busy="true">
+					<canvas id="screen" width="344" height="720" aria-label="FX-991CN X 写实面板与实时液晶显示屏"></canvas>
+					<div id="keys" class="keys" role="group" aria-label="计算器按键"></div>
+					<div id="key-feedback" class="key-feedback" aria-hidden="true" hidden></div>
+				</div>
+			</div>
+			<div id="error" class="error" role="alert" hidden><h2>计算器暂时无法启动</h2><p id="error-message"></p><button type="button" onclick="location.reload()">重新加载</button></div>
+		</section>
+		<div class="status" role="status" aria-live="polite"><span id="status">正在加载计算器…</span><span id="key-hint" aria-hidden="true"></span></div>
+		<div class="toolbar" aria-label="显示与工具">
+			<button id="zoom" type="button" aria-pressed="false" disabled>放大操作</button>
+			<button id="fit-screen" type="button" aria-pressed="false">适应整屏</button>
+			<button id="guide-toggle" type="button" aria-controls="guide" aria-expanded="false">操作指南</button>
+		<details id="utilities" class="utilities">
+			<summary>工具与快捷键</summary>
+			<div class="tools-panel">
+			<div class="tools" aria-label="计算器工具">
+				<button id="shot" type="button" disabled>保存截图</button>
+				<button id="restart" type="button" disabled>重新开机</button>
+				<button id="pause" type="button" aria-pressed="false" disabled>暂停运行</button>
+				<button id="pixel-display" type="button" aria-pressed="false" disabled>原始点阵</button>
+			</div>
+			<p class="save-note" id="display-note">当前：细腻显示，保留真机字形。</p>
+			<details class="help" open>
+				<summary>键盘快捷键</summary>
+				<dl><div><dt>数字 / 运算符</dt><dd>直接输入</dd></div><div><dt>执行计算</dt><dd><kbd>Enter</kbd></dd></div><div><dt>删除 / 清除</dt><dd><kbd>⌫</kbd> / <kbd>Esc</kbd></dd></div><div><dt>SHIFT / ALPHA</dt><dd><kbd>F1</kbd> / <kbd>F2</kbd></dd></div><div><dt>菜单 / 开机</dt><dd><kbd>F3</kbd> / <kbd>F4</kbd></dd></div><div><dt>光标移动</dt><dd><kbd>↑ ↓ ← →</kbd></dd></div></dl>
+			</details>
+			<details class="help">
+				<summary>记忆与备份</summary>
+				<p>计算器记忆自动保存在当前浏览器。备份包含变量、设置和工作区 RAM，并非运行中的完整快照。</p>
+				<div class="backup-tools"><button id="export" disabled>导出记忆</button><button id="import" disabled>导入记忆</button></div>
+				<input id="memory-file" type="file" accept=".bin" hidden>
+			</details>
+			<p class="save-note" id="save-note">记忆保存在本机，不上传计算数据。</p>
+			</div>
+		</details>
+		</div>
+		<p class="gesture-hint">轻点按键 · 长按连续输入 · 双指缩放</p>
+		<a class="mobile-guide-link" href="#guide">不知道怎么按？查看操作指南</a>
+	</div>
+	<section id="touch-panel" class="touch-panel" aria-label="大按键操作区">
+		<div class="pad-heading"><div><span class="eyebrow">FX-991CN X</span><h1>大按键操作</h1></div><span>与左侧计算器同步</span></div>
+		<div class="pad-lcd"><canvas id="pad-screen" width="768" height="292" aria-label="同步液晶显示"></canvas></div>
+		<div class="pad-keyboard" role="group" aria-label="与原机排布一致的大按键"><div id="pad-functions" class="pad-functions" aria-label="功能与方向键"></div><div id="pad-numbers" class="pad-numbers" aria-label="数字与运算键"></div></div>
+	</section>
+	<aside id="guide" class="guide" aria-labelledby="guide-title" hidden>
+		<button id="guide-close" class="guide-close" type="button">关闭指南</button>
+		<div class="guide-intro"><span class="eyebrow">官方手册 V02 · 按键操作</span><h1 id="guide-title">操作指南</h1><p>先选模式，再按步骤。查找你要用的功能，点击键名即可在面板上定位。</p></div>
+		<div class="guide-basics"><div><span class="key-color shift-color">SHIFT</span><p>先按再松开，调用键上方的黄色功能。</p></div><div><span class="key-color alpha-color">ALPHA</span><p>先按再松开，输入红色字母或符号。</p></div></div>
+		<label class="guide-search" for="guide-search"><span>查找操作</span><input id="guide-search" type="search" placeholder="例如：分数、sin、方程…" autocomplete="off"></label>
+		<div id="guide-filters" class="guide-filters" role="group" aria-label="操作分类"></div>
+		<div class="guide-list-heading"><h2>操作小抄</h2><span id="guide-count"></span></div>
+		<p class="guide-tip">依据官方 V02 手册整理。先看「操作前」，再按正文步骤；键名仅用于定位，不会自动输入。</p>
+		<p id="guide-location" class="guide-location" role="status" aria-live="polite"></p>
+		<div id="guide-list" class="guide-list"></div>
+		<p id="guide-empty" class="guide-empty" hidden>没找到相关操作。试试「角度」「变量」或其他关键词。</p>
+		<div class="guide-source"><span class="eyebrow">关于这份指南</span><p>依据 Casio 官方《fx‑991CN X 用户说明书》RJA530830‑001V02 整理，条目页码为手册印刷页码。示例请按条目指定的模式和设置操作，不适用于 CW 系列。</p><a href="https://www.casio.com/content/dam/casio/global/support/manuals/calculators/pdf/004-zh-cn/f/fx-991CN_X_B_CN.pdf" target="_blank" rel="noopener noreferrer">阅读 Casio 官方说明书（PDF）</a><p>本项目为独立网页模拟器，非 Casio 官方产品；模拟器兼容性不等同于全部真机功能已验证。</p></div>
+	</aside>
+	</main>
+	<footer class="page-footer"><span>算式留在浏览器，记忆保存在本机。</span><a href="https://www.casio.com.cn/support/calculators/content/video/" target="_blank" rel="noopener noreferrer">Casio 官方操作视频</a></footer>
+	<nav class="mobile-nav" aria-label="手机快捷导航"><a href="#calculator" aria-current="location">计算器</a><a href="#guide">操作指南</a></nav>
+	<script type="module" src="./app.js"></script>
+	<script type="module" src="./guide.js"></script>
+</body>
+</html>

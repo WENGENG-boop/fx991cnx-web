@@ -1,0 +1,12 @@
+{
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "node server.mjs",
+		"package": "node package.mjs",
+		"test:skin": "node tools/check-skin.mjs",
+		"test:device": "node --test tests/device.test.mjs",
+		"test:guide": "node --test tests/guide.test.mjs",
+		"test:display": "node --test tests/display.test.mjs"
+	}
+}

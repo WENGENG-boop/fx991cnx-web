@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#e9e6df">
+	<meta name="description" content="FX-991CN X 原机 ROM 在浏览器中逐条指令运行。独立项目展示，非 Casio 官方站点。">
+	<title>991 — Instrument</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23ff4d00'/%3E%3C/svg%3E">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body class="loading">
+	<div class="rules" aria-hidden="true"><i></i><i></i><i></i></div>
+	<div class="grain" aria-hidden="true"></div>
+	<div class="cursor" aria-hidden="true"><span class="ring"></span><span class="coord">X 0000 · Y 0000</span></div>
+
+	<div class="loader" aria-hidden="true">
+		<span class="loader-label">BOOT / nX-U8</span>
+		<span class="loader-num">000</span>
+		<span class="loader-bar"><i></i></span>
+	</div>
+
+	<a class="skip" href="#main">跳到正文</a>
+	<header class="bar">
+		<a class="brand" href="#top" aria-label="返回顶部"><b>991</b><span>INSTRUMENT</span></a>
+		<p class="bar-mid">fx-991CN X — 浏览器移植版</p>
+		<div class="bar-end">
+			<span class="clock" id="clock">--:--:--</span>
+			<a class="bar-cta" data-calculator-link href="http://127.0.0.1:5173/frontend/" target="_blank" rel="noopener noreferrer">启动 ↗</a>
+		</div>
+	</header>
+
+	<main id="main">
+		<!-- Scene 1 (pinned): device → zoom into the LCD → full-screen dot matrix. -->
+		<section class="scene hero" id="top">
+			<div class="pin">
+				<div class="giant" aria-hidden="true">991</div>
+				<div class="hero-text">
+					<p class="kicker"><span class="sq"></span>N°001 · 原机固件 · 指令级模拟</p>
+					<h1>原机 ROM，<br>在浏览器里<br><em>逐条指令</em>运行。</h1>
+				</div>
+				<p class="hero-note">没有重写公式，没有仿制界面。<br>按下的每一个键，都交给真正的固件处理。</p>
+
+				<div class="device-wrap" id="device-wrap">
+					<div class="device" id="device">
+						<canvas id="body" width="688" height="1440" role="img" aria-label="FX-991CN X 机身展示图，屏幕为点阵演示"></canvas>
+						<canvas id="lcd" class="lcd" aria-hidden="true"></canvas>
+					</div>
+					<div class="callouts" aria-hidden="true">
+						<span class="callout right" style="--x:89%;--y:22%;--i:0"><b>192 × 63</b>点阵液晶 · 直读显存</span>
+						<span class="callout left" style="--x:12%;--y:55%;--i:1"><b>nX-U8</b>CPU · 指令级模拟</span>
+						<span class="callout right" style="--x:90%;--y:80%;--i:2"><b>50 键</b>原机坐标 · 重新标定</span>
+						<span class="callout right" style="--x:93%;--y:5%;--i:3"><b>262,144 B</b>rom.bin · 不改一个字节</span>
+					</div>
+				</div>
+
+				<a class="orbit" data-calculator-link href="http://127.0.0.1:5173/frontend/" target="_blank" rel="noopener noreferrer" aria-label="开始计算">
+					<svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="ring" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs>
+						<text><textPath href="#ring">开始计算 · OPEN CALCULATOR · 开始计算 · OPEN CALCULATOR ·</textPath></text></svg>
+					<span class="orbit-core">→</span>
+				</a>
+				<p class="scroll-cue" aria-hidden="true"><span></span>向下滚动 · 进入屏幕</p>
+
+				<div class="screen" id="screen" aria-hidden="true">
+					<canvas id="matrix-lcd"></canvas>
+					<div class="screen-caption">
+						<p class="mono">VRAM 0xF800 · 192 × 63 · 12,096 DOTS</p>
+						<p class="screen-line">每一个点，<br>都来自真实显存。</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Scene 2 (pinned): exploded view of the runtime stack. -->
+		<section class="scene stack" id="stack" aria-labelledby="stack-title">
+			<div class="pin">
+				<div class="stack-copy">
+					<p class="kicker"><span class="sq"></span>N°002 · 爆炸图</p>
+					<h2 id="stack-title">四层，<br>一层也没省。</h2>
+					<ol class="layers" id="layers">
+						<li><span class="n">01</span><div><h3>rom.bin</h3><p>262,144 字节原机固件，原样写入内存文件系统。</p></div></li>
+						<li><span class="n">02</span><div><h3>nX-U8 CPU</h3><p>C++ 内核逐条执行指令，连同键盘、定时器与 BCD 运算外设。</p></div></li>
+						<li><span class="n">03</span><div><h3>WebAssembly</h3><p>Emscripten 编译，单线程运行，时钟由页面逐帧推进。</p></div></li>
+						<li><span class="n">04</span><div><h3>192 × 63 点阵</h3><p>直接读取显存，软件光栅到 Canvas。字形全部来自 ROM。</p></div></li>
+					</ol>
+				</div>
+				<div class="iso-stage" aria-hidden="true">
+					<div class="iso" id="iso">
+						<div class="plate p-rom"><span class="tag">ROM · 256 KB</span><div class="bits"></div></div>
+						<div class="plate p-cpu"><span class="tag">CPU · nX-U8</span><div class="chip"><span>nX-U8</span></div></div>
+						<div class="plate p-wasm"><span class="tag">RUNTIME · WASM</span><div class="wasm">.wasm</div></div>
+						<div class="plate p-lcd"><span class="tag">DISPLAY · 192×63</span><div class="dots"></div></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Scene 3: numbers as typography. -->
+		<section class="numbers" id="numbers" aria-labelledby="numbers-title">
+			<header class="numbers-head">
+				<p class="kicker"><span class="sq"></span>N°003 · 规格</p>
+				<h2 id="numbers-title">数字不多，<br>每个都有出处。</h2>
+			</header>
+			<ul>
+				<li><strong data-count="50">50</strong><span class="what">颗原机按键</span><span class="why">热区按写实机身坐标重新标定</span></li>
+				<li><strong data-count="12096">12,096</strong><span class="what">个液晶点</span><span class="why">192 × 63，逐点读取显存</span></li>
+				<li><strong data-count="8192">8,192</strong><span class="what">字节电池 RAM</span><span class="why">自动保存在本机浏览器</span></li>
+				<li><strong data-count="0">0</strong><span class="what">次安装</span><span class="why">打开网页即可计算</span></li>
+			</ul>
+		</section>
+
+		<!-- Scene 4: signal-orange finale. -->
+		<section class="finale" id="finale">
+			<canvas id="field" aria-hidden="true"></canvas>
+			<p class="kicker"><span class="sq"></span>N°004 · 就绪</p>
+			<a class="finale-link" data-calculator-link href="http://127.0.0.1:5173/frontend/" target="_blank" rel="noopener noreferrer"><span>开始计算</span><b aria-hidden="true">→</b></a>
+			<p class="finale-note">在点阵上移动鼠标，或点一下。</p>
+		</section>
+	</main>
+
+	<footer class="foot">
+		<span>991 / INSTRUMENT</span>
+		<span>基于 CasioEmuNeo（GPL-3.0）· 独立项目，非 Casio 官方站点 · 机身与品牌归原权利人所有</span>
+		<button type="button" id="motion" aria-pressed="true">动效 · 开</button>
+	</footer>
+
+	<script type="module" src="./app.js"></script>
+</body>
+</html>

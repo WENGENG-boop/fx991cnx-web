@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+	最小验证页 —— 不是成品界面, 只是用来确认 wasm 到底跑没跑起来。
+	成品界面请自己重写; 这个文件只做三件事: 开核心、收按键、把画面贴上 canvas。
+
+	必须用 HTTP 打开 (wasm 和 model.lua 都要 fetch):
+	    cd CasioEmuNeo-master
+	    python -m http.server 8080
+	    # 浏览器打开 http://localhost:8080/web/examples/minimal.html
+-->
+<meta charset="utf-8">
+<title>fx-991CN X (wasm 冒烟测试)</title>
+<style>
+	body { margin: 0; background: #202124; color: #ddd; font: 14px/1.6 sans-serif; text-align: center; }
+	canvas { image-rendering: pixelated; height: 70vh; margin: 16px; background: #fff; }
+	#log { white-space: pre-wrap; text-align: left; max-width: 700px; margin: 0 auto; padding: 8px; opacity: .7; }
+</style>
+
+<canvas id="screen"></canvas>
+<div id="log">正在加载…</div>
+
+<script src="../dist/casioemu_web.js"></script>
+<script type="module">
+	import { CasioEmu } from '../js/casioemu-client.js';
+
+	const log = (text) => { document.getElementById('log').textContent += text + '\n'; };
+	log('');
+
+	const emu = await CasioEmu.create({
+		modelUrl: '../../release/fx991cnx/',
+		scriptUrl: new URL('../dist/casioemu_web.js', import.meta.url).href,
+		onLog: log,
+	});
+
+	const canvas = document.getElementById('screen');
+	const ctx = canvas.getContext('2d');
+	canvas.width = emu.deviceWidth;
+	canvas.height = emu.deviceHeight;
+	emu.onFrame = (image) => ctx.putImageData(image, 0, 0);
+
+	addEventListener('keydown', (e) => {
+		if (e.repeat) return;
+		const name = CasioEmu.keyNameFromEvent(e);
+		if (name && emu.keyDown(name)) e.preventDefault();
+	});
+	addEventListener('keyup', (e) => {
+		const name = CasioEmu.keyNameFromEvent(e);
+		if (name) emu.keyUp(name);
+	});
+
+	for (const phase of [['pointerdown', 1], ['pointerup', 2]]) {
+		canvas.addEventListener(phase[0], (e) => {
+			const point = emu.atlasPointFromEvent(canvas, e);
+			emu.pointer(phase[1], point.x, point.y);
+		});
+	}
+
+	emu.start();
+	log(`已启动 ${emu.deviceWidth}x${emu.deviceHeight}, ${emu.buttons.length} 个按钮 — 键盘直接输入即可`);
+</script>
