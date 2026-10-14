@@ -57,3 +57,7 @@ python CasioEmuNeo-master/web/tools/check_keynames.py release/fx991cnx/model.lua
 ## Verification notes
 
 Record browser results in `frontend/VERIFICATION.md` / `design-qa.md`. A ROM that boots doesn't prove that every calculator function works, and Chromium touch emulation doesn't replace testing in real iPad Safari. Exercise both models when you change core or web API code.
+
+## Release
+
+Repo: github.com/WENGENG-boop/fx991cnx-web (public; `.gitignore` must keep `rom.bin` and ROM disassembly out). Live site: https://calculator.weo.asia/ — showcase at `/`, calculator at `/app/`. Deploy: `node tools/build-site.mjs` (bundles the local ROM into `dist/`, rewrites showcase links to `/app/`) then `npx wrangler deploy` (Workers static assets per `wrangler.jsonc`; `wrangler pages deploy` no longer works with wrangler 4.150+).

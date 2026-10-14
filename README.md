@@ -30,10 +30,10 @@ node showcase/server.mjs                  # 展示页  http://127.0.0.1:5176/
 
 ```powershell
 node tools/build-site.mjs                                        # → dist/（会把本机的 rom.bin 打包进去）
-npx wrangler pages deploy dist --project-name fx991cnx-web       # 上传到 Cloudflare Pages
+npx wrangler deploy                                              # 按 wrangler.jsonc 上传到 Cloudflare（Workers 静态资源）
 ```
 
-`dist/` 是纯静态站点，任何支持 `application/wasm` 的静态托管都可以使用。发布带 ROM 的站点前，请自行确认 ROM 与面板素材的传播权限。
+`wrangler.jsonc` 把 `dist/` 作为静态资源部署到 Worker `fx991cnx-web`，并绑定自定义域名 `calculator.weo.asia`。`dist/` 是纯静态站点，任何支持 `application/wasm` 的静态托管都可以使用。发布带 ROM 的站点前，请自行确认 ROM 与面板素材的传播权限。
 
 ## 测试
 
