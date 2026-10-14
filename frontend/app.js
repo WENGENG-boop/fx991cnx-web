@@ -189,7 +189,7 @@ window.addEventListener('blur',releaseAll);
 $('device').addEventListener('contextmenu',event=>event.preventDefault());
 
 function repaint() {
-	if(cover?.complete && cover.naturalWidth) drawSkin(context,cover,lcdCanvas,{smooth:smoothDisplay});
+	if(cover) { context.clearRect(0,0,skin.width,skin.height); drawSkin(context,cover,lcdCanvas,{smooth:smoothDisplay}); }
 	padContext.clearRect(0,0,padCanvas.width,padCanvas.height);
 	padContext.imageSmoothingEnabled=false;
 	padContext.drawImage(lcdCanvas,0,0,padCanvas.width,padCanvas.height);
@@ -330,10 +330,27 @@ $('memory-file').addEventListener('change', async event => {
 	finally { event.target.value = ''; }
 });
 
+// The source photo sits on white; flood-fill that backdrop to transparent inside the crop, once.
+function clearBackdrop(image) {
+	const out=document.createElement('canvas');out.width=image.naturalWidth;out.height=image.naturalHeight;
+	const ctx=out.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);
+	const {x:x0,y:y0,width:w,height:h}=skin.crop,img=ctx.getImageData(x0,y0,w,h),d=img.data,seen=new Uint8Array(w*h),stack=[];
+	const light=i=>{const r=d[i*4],g=d[i*4+1],b=d[i*4+2];return Math.min(r,g,b)>200&&Math.max(r,g,b)-Math.min(r,g,b)<28;};
+	for(let x=0;x<w;x++)stack.push(x,(h-1)*w+x);
+	for(let y=0;y<h;y++)stack.push(y*w,y*w+w-1);
+	while(stack.length){
+		const i=stack.pop();if(seen[i]||!light(i))continue;seen[i]=1;d[i*4+3]=0;
+		const x=i%w;if(x>0)stack.push(i-1);if(x<w-1)stack.push(i+1);if(i>=w)stack.push(i-w);if(i<w*(h-1))stack.push(i+w);
+	}
+	ctx.putImageData(img,x0,y0);
+	return out;
+}
+
 async function boot() {
-	cover = new Image();
-	cover.src = './assets/source-cover.png';
-	await cover.decode();
+	const photo = new Image();
+	photo.src = './assets/source-cover.png';
+	await photo.decode();
+	cover = clearBackdrop(photo);
 	drawSkin(context,cover);
 	emu = await CasioEmu.create({
 		modelUrl:'../release/fx991cnx/',

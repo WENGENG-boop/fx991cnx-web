@@ -3,12 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#eef1f5">
+	<meta name="theme-color" content="#e9e6df">
 	<meta name="description" content="FX-991CN X 网页计算器，原机面板、完整按键与本地记忆。">
-	<title>FX-991CN X · 网页计算器</title>
+	<title>991 — 计算器</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23ff4d00'/%3E%3C/svg%3E">
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
+	<div class="app-rules" aria-hidden="true"><i></i><i></i><i></i></div>
 	<a class="skip-link" href="#calculator">跳到计算器</a>
 	<header class="page-header">
 		<a class="wordmark" href="#calculator"><span class="brand-label">科学计算工作台</span><span>fx‑991CN X<span class="edition">ClassWiz · 中文版</span></span></a>
@@ -53,6 +55,7 @@
 				<input id="memory-file" type="file" accept=".bin" hidden>
 			</details>
 			<p class="save-note" id="save-note">记忆保存在本机，不上传计算数据。</p>
+			<a class="home-link" href="../">← 返回 991 首页</a>
 			</div>
 		</details>
 		</div>
@@ -60,7 +63,7 @@
 		<a class="mobile-guide-link" href="#guide">不知道怎么按？查看操作指南</a>
 	</div>
 	<section id="touch-panel" class="touch-panel" aria-label="大按键操作区">
-		<div class="pad-heading"><div><span class="eyebrow">FX-991CN X</span><h1>大按键操作</h1></div><span>与左侧计算器同步</span></div>
+		<div class="pad-heading"><div><span class="eyebrow"><i class="sq"></i>N°002 · FX-991CN X</span><h1>大按键操作</h1></div><span class="pad-meta">与左侧计算器同步<a class="pad-home" href="../">← 991 首页</a></span></div>
 		<div class="pad-lcd"><canvas id="pad-screen" width="768" height="292" aria-label="同步液晶显示"></canvas></div>
 		<div class="pad-keyboard" role="group" aria-label="与原机排布一致的大按键"><div id="pad-functions" class="pad-functions" aria-label="功能与方向键"></div><div id="pad-numbers" class="pad-numbers" aria-label="数字与运算键"></div></div>
 	</section>
